@@ -2,14 +2,13 @@ package linkedlist
 
 func Exec() {
 	var sll SLinkedList
-	// sll.AddAtFirst(10)
-	// sll.AddAtFirst(30)
-	// sll.AddAtFirst(20)
-	// sll.AddAtFirst(99)
-	sll.AddAtLast(23)
-	sll.AddAtLast(32)
+	sll.AddAtFirst(10)
 	sll.AddAtLast(67)
+	sll.PrintValues()
+	sll.DeleteAtFirst()
 	sll.AddAtLast(51)
-	// sll.DeleteAtLast()
+	sll.PrintValues()
+	sll.DeleteAtLast()
+	sll.NodeContains(991)
 	sll.PrintValues()
 }

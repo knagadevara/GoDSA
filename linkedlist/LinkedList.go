@@ -63,26 +63,38 @@ func CreateNode(value int64) *IntNode {
 }
 
 func (n *SLinkedList) setInitialNode(node *IntNode) {
-	if n.getHeadNode() == nil || n.getTailNode() == nil {
+	if n.getHeadNode() == nil && n.getTailNode() == nil {
 		node.setPrvNode(node)
 		node.setNextNode(node)
-	} else {
-		node.setNextNode(n.getHeadNode())
-		node.setPrvNode(n.getTailNode())
+		n.setHeadNode(node)
+		n.setTailNode(node)
 	}
 }
 
 func (n *SLinkedList) AddAtFirst(value int64) {
 	node := CreateNode(value)
-	n.setInitialNode(node)
-	n.setHeadNode(node)
+	if n.getNodeCount() == 0 {
+		n.setInitialNode(node)
+	} else {
+		node.setNextNode(n.getHeadNode())
+		n.getHeadNode().setPrvNode(node)
+		n.setHeadNode(node)
+	}
+	fmt.Println("Added: ", value)
 	n.IncNode()
 }
 
 func (n *SLinkedList) AddAtLast(value int64) {
 	node := CreateNode(value)
-	n.setInitialNode(node)
-	n.setTailNode(node)
+	if n.getNodeCount() == 0 {
+		n.setInitialNode(node)
+	} else {
+		node.setPrvNode(n.getTailNode())
+		n.getTailNode().setNextNode(node)
+		node.setNextNode(node)
+		n.setTailNode(node)
+	}
+	fmt.Println("Added: ", value)
 	n.IncNode()
 }
 
@@ -90,7 +102,7 @@ func (n *SLinkedList) DeleteAtFirst() {
 	if n.getNodeCount() == 0 {
 		fmt.Println("Nothing to Delete")
 	} else {
-		fmt.Printf("Deleted: %d", n.getHeadNode().getValue())
+		fmt.Printf("Deleted: %d\n", n.getHeadNode().getValue())
 		n.setHeadNode(n.getHeadNode().getNextNode())
 		n.DecNode()
 	}
@@ -100,7 +112,7 @@ func (n *SLinkedList) DeleteAtLast() {
 	if n.getNodeCount() == 0 {
 		fmt.Println("Nothing to Delete")
 	} else {
-		fmt.Printf("Deleted: %d", n.getTailNode().getValue())
+		fmt.Printf("Deleted: %d\n", n.getTailNode().getValue())
 		n.setTailNode(n.getTailNode().getPrvNode())
 		n.DecNode()
 	}
@@ -115,7 +127,7 @@ func (n *SLinkedList) NodeContains(value int64) {
 			fmt.Printf("value %d Found at Index: %d\n", value, indx)
 			break
 		} else {
-			if headNode.getNextNode() == nil {
+			if headNode.getNextNode() == headNode {
 				fmt.Printf("value %d Not Found!!\n", value)
 				break
 			} else {
@@ -128,8 +140,10 @@ func (n *SLinkedList) NodeContains(value int64) {
 
 func (n *SLinkedList) PrintValues() {
 	headNode := n.getHeadNode()
-	for i := 0; i < int(n.getNodeCount()); i++ {
+	totalNodes := int(n.getNodeCount())
+	for i := 0; i < totalNodes; i++ {
 		fmt.Printf("%d\n", headNode.getValue())
 		headNode = headNode.getNextNode()
 	}
+	fmt.Println("Total Nodes: ", totalNodes)
 }

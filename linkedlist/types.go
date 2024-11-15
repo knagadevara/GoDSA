@@ -11,11 +11,11 @@ type SLinkedList struct {
 }
 
 type LinkedList interface {
-	CreateNewNode(value int64) *IntNode
+	setInitialNode(node *IntNode)
 	AddAtFirst(value int64)
 	DeleteAtFirst()
 	AddAtLast(value int64)
 	DeleteAtLast()
 	NodeContains(value int64)
-	IndexOf(value int64)
+	PrintValues()
 }
