@@ -63,14 +63,11 @@ func CreateNode(value int64) *IntNode {
 }
 
 func (n *SLinkedList) setInitialNode(node *IntNode) {
-	if n.getHeadNode() == nil {
+	if n.getHeadNode() == nil || n.getTailNode() == nil {
+		node.setPrvNode(node)
 		node.setNextNode(node)
 	} else {
 		node.setNextNode(n.getHeadNode())
-	}
-	if n.getTailNode() == nil {
-		node.setPrvNode(node)
-	} else {
 		node.setPrvNode(n.getTailNode())
 	}
 }
