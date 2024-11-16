@@ -165,3 +165,16 @@ func (n *SLinkedList) PrintValues() {
 		fmt.Printf("No items in Linked List!!\n")
 	}
 }
+
+func (n *SLinkedList) PrintList() {
+	fmt.Println(n.isEmpty())
+	currentNode := n.getHeadNode()
+	for {
+		if currentNode == n.getTailNode() {
+			break
+		} else {
+			fmt.Printf("%d\n", currentNode.getValue())
+			currentNode = currentNode.getNextNode()
+		}
+	}
+}
