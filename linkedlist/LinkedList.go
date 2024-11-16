@@ -42,7 +42,7 @@ func (n *SLinkedList) getTailNode() *IntNode {
 	return n.tailNode
 }
 
-func (n *SLinkedList) getNodeCount() int16 {
+func (n *SLinkedList) getNodeCount() uint16 {
 	return n.totalNodes
 }
 
@@ -57,8 +57,8 @@ func (n *SLinkedList) DecNode() {
 func CreateNode(value int64) *IntNode {
 	var node IntNode
 	node.setValue(value)
-	node.setNextNode(nil)
-	node.setPrvNode(nil)
+	node.setNextNode(&IntNode{})
+	node.setPrvNode(&IntNode{})
 	return &node
 }
 
@@ -73,7 +73,7 @@ func (n *SLinkedList) setInitialNode(node *IntNode) {
 
 func (n *SLinkedList) AddAtFirst(value int64) {
 	node := CreateNode(value)
-	if n.getNodeCount() == 0 {
+	if n.isEmpty() {
 		n.setInitialNode(node)
 	} else {
 		node.setNextNode(n.getHeadNode())
@@ -86,64 +86,82 @@ func (n *SLinkedList) AddAtFirst(value int64) {
 
 func (n *SLinkedList) AddAtLast(value int64) {
 	node := CreateNode(value)
-	if n.getNodeCount() == 0 {
+	if n.isEmpty() {
 		n.setInitialNode(node)
 	} else {
 		node.setPrvNode(n.getTailNode())
 		n.getTailNode().setNextNode(node)
-		node.setNextNode(node)
 		n.setTailNode(node)
 	}
 	fmt.Println("Added: ", value)
 	n.IncNode()
 }
 
+func (n *SLinkedList) isEmpty() bool {
+	return n.getHeadNode() == nil || n.getTailNode() == nil || n.getHeadNode().getNextNode() == nil || n.getTailNode().getNextNode() == nil || n.getHeadNode().getPrvNode() == nil || n.getTailNode().getPrvNode() == nil
+}
+
 func (n *SLinkedList) DeleteAtFirst() {
-	if n.getNodeCount() == 0 {
-		fmt.Println("Nothing to Delete")
-	} else {
-		fmt.Printf("Deleted: %d\n", n.getHeadNode().getValue())
+	if !(n.isEmpty()) {
+		fmt.Printf("Deleting: %d\n", n.getHeadNode().getValue())
 		n.setHeadNode(n.getHeadNode().getNextNode())
+		n.getHeadNode().setPrvNode(&IntNode{})
 		n.DecNode()
+		if n.getHeadNode().getNextNode() == n.getHeadNode() {
+			n.setHeadNode(&IntNode{})
+			fmt.Println("Deleteing Last Item")
+		}
+	} else {
+		fmt.Printf("Noting to Delete!!\n")
 	}
 }
 
 func (n *SLinkedList) DeleteAtLast() {
-	if n.getNodeCount() == 0 {
-		fmt.Println("Nothing to Delete")
-	} else {
-		fmt.Printf("Deleted: %d\n", n.getTailNode().getValue())
+	if !(n.isEmpty()) {
+		fmt.Printf("Deleting: %d\n", n.getTailNode().getValue())
 		n.setTailNode(n.getTailNode().getPrvNode())
+		n.getTailNode().setNextNode(&IntNode{})
 		n.DecNode()
+		if n.getTailNode().getNextNode() == n.getHeadNode() {
+			n.setTailNode(&IntNode{})
+			fmt.Println("Deleteing Last Item")
+		}
+	} else {
+		fmt.Printf("Noting to Delete!!\n")
 	}
 }
 
 func (n *SLinkedList) NodeContains(value int64) {
-	headNode := n.getHeadNode()
+	currNode := n.getHeadNode()
 	var indx int16
-	for {
-		indx += 1
-		if headNode.getValue() == value {
-			fmt.Printf("value %d Found at Index: %d\n", value, indx)
-			break
-		} else {
-			if headNode.getNextNode() == headNode {
-				fmt.Printf("value %d Not Found!!\n", value)
+	if !(n.isEmpty()) {
+		for {
+			if currNode.getValue() == value {
+				fmt.Printf("value %d Found at Index: %d\n", value, indx)
 				break
 			} else {
-				headNode = headNode.getNextNode()
-				continue
+				currNode = currNode.getNextNode()
+				indx += 1
+			}
+			if currNode.getNextNode() == nil {
+				break
 			}
 		}
+	} else {
+		fmt.Printf("Value: %d Not found as there are no items in Linked List!!\n", value)
 	}
 }
 
 func (n *SLinkedList) PrintValues() {
 	headNode := n.getHeadNode()
 	totalNodes := int(n.getNodeCount())
-	for i := 0; i < totalNodes; i++ {
-		fmt.Printf("%d\n", headNode.getValue())
-		headNode = headNode.getNextNode()
+	if !(n.isEmpty()) {
+		for i := 0; i < totalNodes; i++ {
+			fmt.Printf("%d\n", headNode.getValue())
+			headNode = headNode.getNextNode()
+		}
+		fmt.Println("Total Nodes: ", totalNodes)
+	} else {
+		fmt.Printf("No items in Linked List!!\n")
 	}
-	fmt.Println("Total Nodes: ", totalNodes)
 }

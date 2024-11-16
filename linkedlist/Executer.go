@@ -8,7 +8,14 @@ func Exec() {
 	sll.DeleteAtFirst()
 	sll.AddAtLast(51)
 	sll.PrintValues()
-	sll.DeleteAtLast()
-	sll.NodeContains(991)
+	sll.NodeContains(67)
+	sll.AddAtFirst(1)
 	sll.PrintValues()
+	sll.DeleteAtLast()
+	sll.DeleteAtFirst()
+	sll.DeleteAtFirst()
+	sll.DeleteAtLast()
+	sll.PrintValues()
+	sll.NodeContains(7)
+
 }
