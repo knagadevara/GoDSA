@@ -225,13 +225,13 @@ func (n *SLinkedList) getKthNodeFromEnd(kth uint16) int64 {
 	ttlElm := n.sizeOff()
 	if !(n.isEmpty()) {
 		currNode := n.getTailNode()
-		if kth >= ttlElm {
+		if kth > ttlElm {
 			return n.getHeadNode().getValue()
 		}
 		if kth == 0 {
 			return n.getTailNode().getValue()
 		}
-		for i := 1; i <= int(kth); i++ {
+		for i := 1; i <= int(kth)-1; i++ {
 			currNode = currNode.getPrvNode()
 		}
 		return currNode.getValue()
