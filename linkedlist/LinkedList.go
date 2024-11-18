@@ -186,7 +186,7 @@ func (n *SLinkedList) toArray() []int64 {
 	}
 }
 
-func (n *SLinkedList) reverseLL() {
+func (n *SLinkedList) swapHeadTail() {
 	if !(n.isEmpty()) {
 		newHead := n.getTailNode()
 		newHead.setNextNode(newHead.getPrvNode())
@@ -196,6 +196,14 @@ func (n *SLinkedList) reverseLL() {
 		newTail.setNextNode(nil)
 		n.setHeadNode(newHead)
 		n.setTailNode(newTail)
+	} else {
+		fmt.Printf("Empty List\n")
+	}
+}
+
+func (n *SLinkedList) reverseLL() {
+	if !(n.isEmpty()) {
+		n.swapHeadTail()
 		currNode := n.getHeadNode().getNextNode()
 		for {
 			if currNode == n.getTailNode() {
