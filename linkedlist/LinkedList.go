@@ -42,6 +42,18 @@ func (n *SLinkedList) getTailNode() *IntNode {
 	return n.tailNode
 }
 
+func (n *SLinkedList) sizeOff() uint16 {
+	return n.size
+}
+
+func (n *SLinkedList) IncElem() {
+	n.size += 1
+}
+
+func (n *SLinkedList) DecElem() {
+	n.size -= 1
+}
+
 func CreateNode(value int64) *IntNode {
 	return &IntNode{value: value, prvNode: nil, nextNode: nil}
 }
@@ -62,6 +74,7 @@ func (n *SLinkedList) AddAtFirst(value int64) {
 		n.getHeadNode().setPrvNode(node)
 		n.setHeadNode(node)
 	}
+	n.IncElem()
 	fmt.Println("Added: ", value)
 }
 
@@ -74,6 +87,7 @@ func (n *SLinkedList) AddAtLast(value int64) {
 		n.getTailNode().setNextNode(node)
 		n.setTailNode(node)
 	}
+	n.IncElem()
 	fmt.Println("Added: ", value)
 }
 
@@ -89,6 +103,7 @@ func (n *SLinkedList) DeleteAtFirst() {
 		n.getHeadNode().setValue(0)
 		n.getHeadNode().setNextNode(nil)
 		n.setHeadNode(secondNode)
+		n.DecElem()
 	} else {
 		fmt.Printf("Noting to Delete!!\n")
 	}
@@ -102,6 +117,7 @@ func (n *SLinkedList) DeleteAtLast() {
 		n.getTailNode().setValue(0)
 		n.getTailNode().setNextNode(nil)
 		n.setTailNode(lastButOne)
+		n.DecElem()
 	} else {
 		fmt.Printf("Noting to Delete!!\n")
 	}
@@ -143,5 +159,28 @@ func (n *SLinkedList) PrintList() {
 		}
 	} else {
 		fmt.Println("No items to the list!")
+	}
+}
+
+func (n *SLinkedList) PrintSize() {
+	if !(n.isEmpty()) {
+		fmt.Printf("List-Size: %d\n", n.sizeOff())
+	} else {
+		fmt.Printf("List-Size: 0\n")
+	}
+}
+
+func (n *SLinkedList) toArray() []int64 {
+	if !(n.isEmpty()) {
+		currentNode := n.getHeadNode()
+		var llArr = make([]int64, n.sizeOff())
+		for i := 0; i < int(n.size); i++ {
+			llArr[i] = currentNode.getValue()
+			currentNode = currentNode.getNextNode()
+		}
+		return llArr
+	} else {
+		fmt.Printf("Empty List\n")
+		return nil
 	}
 }

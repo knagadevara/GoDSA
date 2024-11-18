@@ -1,10 +1,15 @@
 package linkedlist
 
+import "fmt"
+
 func Exec() {
 	var sll SLinkedList
 	sll.AddAtFirst(10)
 	sll.AddAtLast(67)
-	sll.PrintList()
+	arr := sll.toArray()
+	fmt.Println(arr[0])
+	fmt.Println(arr[1])
+	sll.PrintSize()
 	sll.DeleteAtFirst()
 	sll.AddAtLast(51)
 	sll.PrintList()
@@ -25,4 +30,5 @@ func Exec() {
 	sll.DeleteAtLast()
 	sll.PrintList()
 	sll.NodeContains(7)
+	sll.PrintSize()
 }
