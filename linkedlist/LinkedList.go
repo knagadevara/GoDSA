@@ -92,7 +92,7 @@ func (n *SLinkedList) AddAtLast(value int64) {
 }
 
 func (n *SLinkedList) isEmpty() bool {
-	return n.getHeadNode() == nil || n.getTailNode() == nil
+	return n.getHeadNode() == nil || n.getTailNode() == nil || n.sizeOff() == 0
 }
 
 func (n *SLinkedList) DeleteAtFirst() {
@@ -201,7 +201,7 @@ func (n *SLinkedList) swapHeadTail() {
 	}
 }
 
-func (n *SLinkedList) reverseLL() {
+func (n *SLinkedList) reverseList() {
 	if !(n.isEmpty()) {
 		n.swapHeadTail()
 		currNode := n.getHeadNode().getNextNode()
@@ -218,5 +218,25 @@ func (n *SLinkedList) reverseLL() {
 		}
 	} else {
 		fmt.Printf("Empty List\n")
+	}
+}
+
+func (n *SLinkedList) getKthNodeFromEnd(kth uint16) int64 {
+	ttlElm := n.sizeOff()
+	if !(n.isEmpty()) {
+		currNode := n.getTailNode()
+		if kth >= ttlElm {
+			return n.getHeadNode().getValue()
+		}
+		if kth == 0 {
+			return n.getTailNode().getValue()
+		}
+		for i := 1; i <= int(kth); i++ {
+			currNode = currNode.getPrvNode()
+		}
+		return currNode.getValue()
+	} else {
+		fmt.Printf("Empty List\n")
+		return -1
 	}
 }
