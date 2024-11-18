@@ -4,13 +4,13 @@ func Exec() {
 	var sll SLinkedList
 	sll.AddAtFirst(10)
 	sll.AddAtLast(67)
-	// sll.PrintValues()
+	sll.PrintList()
 	sll.DeleteAtFirst()
 	sll.AddAtLast(51)
-	// sll.PrintValues()
+	sll.PrintList()
 	sll.NodeContains(67)
 	sll.AddAtFirst(1)
-	// sll.PrintValues()
+	sll.PrintList()
 	sll.DeleteAtLast()
 	sll.DeleteAtFirst()
 	sll.DeleteAtFirst()
@@ -23,7 +23,6 @@ func Exec() {
 	sll.DeleteAtLast()
 	sll.DeleteAtLast()
 	sll.DeleteAtLast()
-	// sll.PrintValues()
+	sll.PrintList()
 	sll.NodeContains(7)
-
 }

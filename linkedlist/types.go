@@ -6,7 +6,6 @@ type IntNode struct {
 }
 
 type SLinkedList struct {
-	totalNodes         uint16
 	headNode, tailNode *IntNode
 }
 
