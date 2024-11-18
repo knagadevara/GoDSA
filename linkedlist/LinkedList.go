@@ -75,7 +75,6 @@ func (n *SLinkedList) AddAtLast(value int64) {
 		n.setTailNode(node)
 	}
 	fmt.Println("Added: ", value)
-	// n.IncNode()
 }
 
 func (n *SLinkedList) isEmpty() bool {
@@ -139,6 +138,7 @@ func (n *SLinkedList) PrintList() {
 			} else {
 				fmt.Printf("%d\n", currentNode.getValue())
 				currentNode = currentNode.getNextNode()
+				continue
 			}
 		}
 	} else {
