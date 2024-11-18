@@ -136,6 +136,7 @@ func (n *SLinkedList) NodeContains(value int64) {
 					continue
 				}
 			} else {
+				fmt.Printf("Not Found!!\n")
 				break
 			}
 		}
@@ -182,5 +183,32 @@ func (n *SLinkedList) toArray() []int64 {
 	} else {
 		fmt.Printf("Empty List\n")
 		return nil
+	}
+}
+
+func (n *SLinkedList) reverseLL() {
+	if !(n.isEmpty()) {
+		newHead := n.getTailNode()
+		newHead.setNextNode(newHead.getPrvNode())
+		newHead.setPrvNode(nil)
+		newTail := n.getHeadNode()
+		newTail.setPrvNode(newTail.getNextNode())
+		newTail.setNextNode(nil)
+		n.setHeadNode(newHead)
+		n.setTailNode(newTail)
+		currNode := n.getHeadNode().getNextNode()
+		for {
+			if currNode == n.getTailNode() {
+				break
+			} else {
+				tmp := currNode.getNextNode()
+				currNode.setNextNode(currNode.getPrvNode())
+				currNode.setPrvNode(tmp)
+				currNode = currNode.getNextNode()
+				continue
+			}
+		}
+	} else {
+		fmt.Printf("Empty List\n")
 	}
 }
