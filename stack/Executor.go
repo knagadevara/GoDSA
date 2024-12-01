@@ -1,5 +1,7 @@
 package stack
 
+import "fmt"
+
 func Exec() {
 	var stk stack
 	stk.Push('I')
@@ -13,7 +15,7 @@ func Exec() {
 	stk.Push('V')
 	stk.Push('-')
 	stk.PrintStack()
-	stk = *stk.reverseStr()
+	stk = *stk.reverseStk()
 	stk.PrintStack()
 	stk.getSize()
 	stk.Pop()
@@ -23,4 +25,8 @@ func Exec() {
 	stk.Push('V')
 	stk.PrintStack()
 	stk.getSize()
+	reverseString("SaiKarthik").PrintStack()
+	// chkBlncdExpr("[(Sai)](VNK>)")
+	fmt.Println(isBalanced("[(Sai][<VNK]>)"))
+	fmt.Println(isBalanced("[(Sai)<VNK>]"))
 }
