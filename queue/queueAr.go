@@ -86,17 +86,40 @@ func (q *QueueArr) nextQm(val int) {
 	q.EnqueueArr(val)
 }
 
-func (q *QueueArr) PrioQue(val int) {
+func (q *QueueArr) PrioQueAsc(val int) {
 	if !(q.isFull()) {
 		q.EnqueueArr(val)
-		for i := q.Tkn - 1; i >= 0; i-- {
-			if val < q.ArQ[i] {
-				tmp := q.ArQ[i]
-				q.ArQ[i] = val
-				q.ArQ[i+1] = tmp
-			} else {
-				continue
-			}
+		q.sortAsc(val)
+	}
+}
+
+// func (q *QueueArr) PrioQueDsc(val int) {
+// 	if !(q.isFull()) {
+// 		q.EnqueueArr(val)
+// 		q.sortDsc(val)
+// 	}
+// }
+
+func (q *QueueArr) sortAsc(val int) {
+	for i := q.Tkn; i >= 0; i-- {
+		if val < q.ArQ[i] {
+			tmp := q.ArQ[i]
+			q.ArQ[i] = val
+			q.ArQ[i+1] = tmp
+		} else {
+			continue
 		}
 	}
 }
+
+// func (q *QueueArr) sortDsc(val int) {
+// 	for i := q.Tkn - 1; i >= 0; i-- {
+// 		if val > q.ArQ[i] {
+// 			tmp := q.ArQ[i+1]
+// 			q.ArQ[i] = tmp
+// 			q.ArQ[i+1] = val
+// 		} else {
+// 			continue
+// 		}
+// 	}
+// }
