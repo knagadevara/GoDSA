@@ -27,3 +27,22 @@ func Exec() {
 	isBalanced("[(Sai][<VNK]>)")
 	isBalanced("[(Sai)<VNK>]")
 }
+
+func QueStk() {
+	var qstk Queue
+
+	qstk.AddInQ('A')
+	qstk.AddInQ('B')
+	qstk.AddInQ('C')
+	qstk.AddInQ('D')
+	qstk.AddInQ('E')
+
+	qstk.RemFrmQ()
+
+	qstk.AddInQ('I')
+	qstk.AddInQ('A')
+	qstk.AddInQ('S')
+
+	qstk.RemFrmQ()
+
+}

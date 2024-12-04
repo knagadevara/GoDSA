@@ -35,14 +35,14 @@ func (s *stack) setFirstElm(firstElem *stkElm) {
 }
 
 func createStackElem(Elem rune) *stkElm {
-	return &stkElm{element: Elem, frontElem: nil}
+	return &stkElm{element: Elem, frontElem: &stkElm{}}
 }
 
 func (s *stack) Push(Elem rune) {
 	item := createStackElem(Elem)
 	s.IncElem()
 	if s.isEmpty() {
-		item.setFrontElm(nil)
+		item.setFrontElm(&stkElm{})
 		s.setFirstElm(item)
 	} else {
 		item.setFrontElm(s.getFirstElm())
@@ -53,7 +53,7 @@ func (s *stack) Push(Elem rune) {
 func (s *stack) Pop() *stkElm {
 	if s.isEmpty() {
 		fmt.Printf("Nothing to Remove!\n")
-		return nil
+		return &stkElm{}
 	} else {
 		poppedElem := s.getFirstElm()
 		s.setFirstElm(s.getFirstElm().getFrontElm())
@@ -105,7 +105,6 @@ func reverseString(word string) *stack {
 
 func (s *stack) reverseStk() *stack {
 	var revStk stack
-	fmt.Println("Size: ", s.sizeOff())
 	if s.isEmpty() {
 		fmt.Printf("Nothing to Reverse!")
 	} else {
