@@ -85,3 +85,18 @@ func (q *QueueArr) nextQm(val int) {
 	q.DequeueArr()
 	q.EnqueueArr(val)
 }
+
+func (q *QueueArr) PrioQue(val int) {
+	if !(q.isFull()) {
+		q.EnqueueArr(val)
+		for i := q.Tkn - 1; i >= 0; i-- {
+			if val < q.ArQ[i] {
+				tmp := q.ArQ[i]
+				q.ArQ[i] = val
+				q.ArQ[i+1] = tmp
+			} else {
+				continue
+			}
+		}
+	}
+}
