@@ -5,33 +5,66 @@ import (
 	"strings"
 )
 
-func purifyString(word string) string {
+func PurifyString(word string) string {
 	return strings.Join(strings.Split(strings.ToLower(word), " "), "")
 }
 
 func CountRepeatChar(word string) *map[rune]int {
 	var repchars = make(map[rune]int)
-	pword := purifyString(word)
-	for _, v := range pword {
+	for _, v := range word {
 		repchars[v] += 1
 	}
 	return &repchars
 }
 
-func PrintRuneMap(runeMap *map[rune]int) {
+func CountRepeatChar2(word string) *map[rune][]int {
+	var repchars = make(map[rune][]int)
+	for ix, v := range word {
+		repchars[v] = append(repchars[v], ix)
+	}
+	return &repchars
+}
+
+func ReverseRuneInt(runeMap *map[rune]int) map[int][]rune {
+	var newMap = make(map[int][]rune)
 	for k, v := range *runeMap {
-		fmt.Printf("%c -> %d\n", k, v)
+		newMap[v] = append(newMap[v], k)
+	}
+	return newMap
+}
+
+func PrintRuneIntArr(mapsMan *map[rune][]int) {
+	for k, v := range *mapsMan {
+		fmt.Println(k, "-> ", v)
 	}
 }
 
-// hashmap.PrintRuneMap(hashmap.CountRepeatChar("               sjldkbfkjsf pewytopwqytopqyt ,nbnm cdvdxv"))
-// Get the first non repetative letter
-func getFirstNonrepeatElement(runeMap map[rune]int) []rune {
-	var repeat []rune
-	for k, _ := range runeMap {
-		if runeMap[k] == 1 {
-			repeat = append(repeat, k)
+func GetFirstNonrepeatElement2() rune {
+	pword := PurifyString("               9sjldkbfkjsf pewytopwqytopqyt ,nbnm cdvdxv")
+	indx := *CountRepeatChar2(pword)
+	for ix, v := range pword {
+		for rn, ixArr := range indx {
+			if len(ixArr) == 1 {
+				if ix == ixArr[0] && rn == v {
+					return rn
+				}
+			}
 		}
 	}
-	return repeat
+	return '-'
+}
+
+func GetFirstNonrepeatElement3() rune {
+	pword := PurifyString("               9sjldkbfkjsf pewytopwqytopqyt ,nbnm cdvdxv")
+	indx := ReverseRuneInt(CountRepeatChar(pword))[1]
+	for _, v := range pword {
+		for _, rn := range indx {
+			if v == rn {
+				return v
+			} else {
+				continue
+			}
+		}
+	}
+	return '-'
 }
