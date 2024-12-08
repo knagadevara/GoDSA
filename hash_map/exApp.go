@@ -39,14 +39,16 @@ func PrintRuneIntArr(mapsMan *map[rune][]int) {
 	}
 }
 
-func GetFirstNonrepeatElement2() rune {
-	pword := PurifyString("               9sjldkbfkjsf pewytopwqytopqyt ,nbnm cdvdxv")
-	indx := *CountRepeatChar2(pword)
-	for ix, v := range pword {
-		for rn, ixArr := range indx {
-			if len(ixArr) == 1 {
-				if ix == ixArr[0] && rn == v {
-					return rn
+func GetFirstElement(pword string, repCnt int) rune {
+	if indx, OK := ReverseRuneInt(CountRepeatChar(pword))[repCnt]; !OK {
+		return '-'
+	} else {
+		for _, v := range pword {
+			for _, rn := range indx {
+				if v == rn {
+					return v
+				} else {
+					continue
 				}
 			}
 		}
@@ -54,15 +56,14 @@ func GetFirstNonrepeatElement2() rune {
 	return '-'
 }
 
-func GetFirstNonrepeatElement3() rune {
-	pword := PurifyString("               9sjldkbfkjsf pewytopwqytopqyt ,nbnm cdvdxv")
-	indx := ReverseRuneInt(CountRepeatChar(pword))[1]
-	for _, v := range pword {
-		for _, rn := range indx {
-			if v == rn {
-				return v
-			} else {
-				continue
+func GetFirstNonrepeatElement2(pword string) rune {
+	indx := *CountRepeatChar2(pword)
+	for ix, v := range pword {
+		for rn, ixArr := range indx {
+			if len(ixArr) == 1 {
+				if ix == ixArr[0] && rn == v {
+					return rn
+				}
 			}
 		}
 	}
