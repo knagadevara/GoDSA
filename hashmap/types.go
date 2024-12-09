@@ -11,13 +11,10 @@ type HashMap struct {
 }
 
 type Hashmapi interface {
-	insert()
-	delete()
-	lookUp()
+	put(k int, v string)
+	get(k int)
+	remove(k int)
 	genHash()
-	getKey()
-	getValue()
-	equals()
 }
 
 // methods required to design

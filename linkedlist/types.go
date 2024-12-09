@@ -1,21 +1,21 @@
 package linkedlist
 
-type IntNode struct {
-	value             int64
-	prvNode, nextNode *IntNode
+type Node[T comparable] struct {
+	value             T
+	prvNode, nextNode *Node[T]
 }
 
-type SLinkedList struct {
+type SLinkedList[T comparable] struct {
 	size               uint16
-	headNode, tailNode *IntNode
+	headNode, tailNode *Node[T]
 }
 
-type LinkedList interface {
-	setInitialNode(node *IntNode)
-	AddAtFirst(value int64)
+type LinkedList[T any] interface {
+	AddAtFirst(value T)
+	AddAtLast(value T)
 	DeleteAtFirst()
-	AddAtLast(value int64)
 	DeleteAtLast()
-	NodeContains(value int64)
-	PrintValues()
+	NodeContains(value T)
+	isEmpty()
+	PrintSize()
 }

@@ -3,7 +3,7 @@ package linkedlist
 import "fmt"
 
 func Exec() {
-	var sll SLinkedList
+	var sll SLinkedList[int]
 	sll.AddAtFirst(30)
 	sll.AddAtFirst(20)
 	sll.AddAtLast(40)

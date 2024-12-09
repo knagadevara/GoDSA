@@ -1,7 +1,5 @@
 package stack
 
-import "fmt"
-
 func reverseString(word string) *stack {
 	var revStk stack
 	for _, v := range word {
@@ -35,12 +33,5 @@ func isBalanced(expr string) bool {
 			continue
 		}
 	}
-	fmt.Printf("%s: ", expr)
-	if opFl.sizeOff() == 0 && isBal {
-		fmt.Println("Expression is Balanced!")
-		return isBal
-	} else {
-		fmt.Println("Expression is Not Balanced!")
-		return isBal
-	}
+	return opFl.sizeOff() == 0 && isBal
 }
