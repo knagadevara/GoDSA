@@ -10,7 +10,7 @@ type SLinkedList[T comparable] struct {
 	headNode, tailNode *Node[T]
 }
 
-type LinkedList[T any] interface {
+type LinkedList[T comparable] interface {
 	AddAtFirst(value T)
 	AddAtLast(value T)
 	DeleteAtFirst()

@@ -1,6 +1,11 @@
 package hashmap
 
-func (h *HashMap) genHash()            {}
-func (h *HashMap) put(k int, v string) {}
-func (h *HashMap) get(k int)           {}
-func (h *HashMap) remove(k int)        {}
+func CreateHashMap() {
+
+}
+func (h *HashMap) GenHash() {
+
+}
+func (h *HashMap) Put(k int, v string) {}
+func (h *HashMap) Get(k int)           {}
+func (h *HashMap) Remove(k int)        {}
