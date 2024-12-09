@@ -2,70 +2,74 @@ package linkedlist
 
 import "fmt"
 
-func (n *IntNode) setValue(value int64) {
+func (n *Node[T]) setValue(value T) {
 	n.value = value
 }
 
-func (n *IntNode) getValue() int64 {
+func (n *Node[T]) getValue() T {
 	return n.value
 }
 
-func (n *IntNode) setNextNode(nextNode *IntNode) {
+func (n *Node[T]) setNextNode(nextNode *Node[T]) {
 	n.nextNode = nextNode
 }
 
-func (n *IntNode) setPrvNode(prvNode *IntNode) {
+func (n *Node[T]) setPrvNode(prvNode *Node[T]) {
 	n.prvNode = prvNode
 }
 
-func (n *IntNode) getNextNode() *IntNode {
+func (n *Node[T]) getNextNode() *Node[T] {
 	return n.nextNode
 }
 
-func (n *IntNode) getPrvNode() *IntNode {
+func (n *Node[T]) getPrvNode() *Node[T] {
 	return n.prvNode
 }
 
-func (n *SLinkedList) setHeadNode(headNode *IntNode) {
+func (n *SLinkedList[T]) setHeadNode(headNode *Node[T]) {
 	n.headNode = headNode
 }
 
-func (n *SLinkedList) setTailNode(tailNode *IntNode) {
+func (n *SLinkedList[T]) setTailNode(tailNode *Node[T]) {
 	n.tailNode = tailNode
 }
 
-func (n *SLinkedList) getHeadNode() *IntNode {
+func (n *SLinkedList[T]) getHeadNode() *Node[T] {
 	return n.headNode
 }
 
-func (n *SLinkedList) getTailNode() *IntNode {
+func (n *SLinkedList[T]) getTailNode() *Node[T] {
 	return n.tailNode
 }
 
-func (n *SLinkedList) sizeOff() uint16 {
+func (n *SLinkedList[T]) sizeOff() uint16 {
 	return n.size
 }
 
-func (n *SLinkedList) IncElem() {
+func (n *SLinkedList[T]) IncElem() {
 	n.size += 1
 }
 
-func (n *SLinkedList) DecElem() {
+func (n *SLinkedList[T]) DecElem() {
 	n.size -= 1
 }
 
-func CreateNode(value int64) *IntNode {
-	return &IntNode{value: value, prvNode: nil, nextNode: nil}
+func (n *SLinkedList[T]) isEmpty() bool {
+	return n.getHeadNode() == nil || n.getTailNode() == nil || n.sizeOff() == 0
 }
 
-func (n *SLinkedList) setInitialNode(node *IntNode) {
+func CreateNode[T comparable](value T) *Node[T] {
+	return &Node[T]{value: value, prvNode: nil, nextNode: nil}
+}
+
+func (n *SLinkedList[T]) setInitialNode(node *Node[T]) {
 	node.setPrvNode(node)
 	node.setNextNode(node)
 	n.setHeadNode(node)
 	n.setTailNode(node)
 }
 
-func (n *SLinkedList) AddAtFirst(value int64) {
+func (n *SLinkedList[T]) AddAtFirst(value T) {
 	node := CreateNode(value)
 	if n.isEmpty() {
 		n.setInitialNode(node)
@@ -78,7 +82,7 @@ func (n *SLinkedList) AddAtFirst(value int64) {
 	fmt.Println("Added: ", value)
 }
 
-func (n *SLinkedList) AddAtLast(value int64) {
+func (n *SLinkedList[T]) AddAtLast(value T) {
 	node := CreateNode(value)
 	if n.isEmpty() {
 		n.setInitialNode(node)
@@ -91,52 +95,51 @@ func (n *SLinkedList) AddAtLast(value int64) {
 	fmt.Println("Added: ", value)
 }
 
-func (n *SLinkedList) isEmpty() bool {
-	return n.getHeadNode() == nil || n.getTailNode() == nil || n.sizeOff() == 0
-}
-
-func (n *SLinkedList) DeleteAtFirst() {
+func (n *SLinkedList[T]) DeleteAtFirst() {
+	var emptyNullVal T
 	if !(n.isEmpty()) {
-		fmt.Printf("Deleting: %d\n", n.getHeadNode().getValue())
+		fmt.Println("Deleting: ", n.getHeadNode().getValue())
 		secondNode := n.getHeadNode().getNextNode()
 		n.getHeadNode().setPrvNode(nil)
-		n.getHeadNode().setValue(0)
+		n.getHeadNode().setValue(emptyNullVal)
 		n.getHeadNode().setNextNode(nil)
 		n.setHeadNode(secondNode)
 		n.DecElem()
 	} else {
-		fmt.Printf("Noting to Delete!!\n")
+		fmt.Println("Noting to Delete!!")
 	}
 }
 
-func (n *SLinkedList) DeleteAtLast() {
+func (n *SLinkedList[T]) DeleteAtLast() {
+	var emptyNullVal T
 	if !(n.isEmpty()) {
-		fmt.Printf("Deleting: %d\n", n.getTailNode().getValue())
+		fmt.Println("Deleting: ", n.getTailNode().getValue())
 		lastButOne := n.getTailNode().getPrvNode()
 		n.getTailNode().setNextNode(nil)
-		n.getTailNode().setValue(0)
+		n.getTailNode().setValue(emptyNullVal)
 		n.getTailNode().setNextNode(nil)
 		n.setTailNode(lastButOne)
 		n.DecElem()
 	} else {
-		fmt.Printf("Noting to Delete!!\n")
+		fmt.Println("Noting to Delete!!")
 	}
 }
 
-func (n *SLinkedList) NodeContains(value int64) {
+func (n *SLinkedList[T]) NodeContains(value T) {
 	if !(n.isEmpty()) {
 		currentNode := n.getHeadNode()
 		for {
 			if currentNode != n.getTailNode() {
-				if value == currentNode.getValue() {
-					fmt.Printf("Found!!\n")
+				compVal := currentNode.getValue()
+				if value == compVal {
+					fmt.Println("Found!!")
 					break
 				} else {
 					currentNode = currentNode.getNextNode()
 					continue
 				}
 			} else {
-				fmt.Printf("Not Found!!\n")
+				fmt.Println("Not Found!!")
 				break
 			}
 		}
@@ -145,15 +148,30 @@ func (n *SLinkedList) NodeContains(value int64) {
 	}
 }
 
-func (n *SLinkedList) PrintList() {
+func (n *SLinkedList[T]) toArray() []T {
+	if !(n.isEmpty()) {
+		currentNode := n.getHeadNode()
+		var llArr = make([]T, n.sizeOff())
+		for i := 0; i < int(n.size); i++ {
+			llArr[i] = currentNode.getValue()
+			currentNode = currentNode.getNextNode()
+		}
+		return llArr
+	} else {
+		fmt.Println("Empty List")
+		return nil
+	}
+}
+
+func (n *SLinkedList[T]) PrintList() {
 	if !(n.isEmpty()) {
 		currentNode := n.getHeadNode()
 		for {
 			if currentNode == n.getTailNode() {
-				fmt.Printf("%d\n", currentNode.getValue())
+				fmt.Println(currentNode.getValue())
 				break
 			} else {
-				fmt.Printf("%d\n", currentNode.getValue())
+				fmt.Println(currentNode.getValue())
 				currentNode = currentNode.getNextNode()
 				continue
 			}
@@ -163,80 +181,10 @@ func (n *SLinkedList) PrintList() {
 	}
 }
 
-func (n *SLinkedList) PrintSize() {
+func (n *SLinkedList[T]) PrintSize() {
 	if !(n.isEmpty()) {
-		fmt.Printf("List-Size: %d\n", n.sizeOff())
+		fmt.Println("List-Size: ", n.sizeOff())
 	} else {
-		fmt.Printf("List-Size: 0\n")
-	}
-}
-
-func (n *SLinkedList) toArray() []int64 {
-	if !(n.isEmpty()) {
-		currentNode := n.getHeadNode()
-		var llArr = make([]int64, n.sizeOff())
-		for i := 0; i < int(n.size); i++ {
-			llArr[i] = currentNode.getValue()
-			currentNode = currentNode.getNextNode()
-		}
-		return llArr
-	} else {
-		fmt.Printf("Empty List\n")
-		return nil
-	}
-}
-
-func (n *SLinkedList) swapHeadTail() {
-	if !(n.isEmpty()) {
-		newHead := n.getTailNode()
-		newHead.setNextNode(newHead.getPrvNode())
-		newHead.setPrvNode(nil)
-		newTail := n.getHeadNode()
-		newTail.setPrvNode(newTail.getNextNode())
-		newTail.setNextNode(nil)
-		n.setHeadNode(newHead)
-		n.setTailNode(newTail)
-	} else {
-		fmt.Printf("Empty List\n")
-	}
-}
-
-func (n *SLinkedList) reverseList() {
-	if !(n.isEmpty()) {
-		n.swapHeadTail()
-		currNode := n.getHeadNode().getNextNode()
-		for {
-			if currNode == n.getTailNode() {
-				break
-			} else {
-				tmp := currNode.getNextNode()
-				currNode.setNextNode(currNode.getPrvNode())
-				currNode.setPrvNode(tmp)
-				currNode = currNode.getNextNode()
-				continue
-			}
-		}
-	} else {
-		fmt.Printf("Empty List\n")
-	}
-}
-
-func (n *SLinkedList) getKthNodeFromEnd(kth uint16) int64 {
-	ttlElm := n.sizeOff()
-	if !(n.isEmpty()) {
-		currNode := n.getTailNode()
-		if kth > ttlElm {
-			return n.getHeadNode().getValue()
-		}
-		if kth == 0 {
-			return n.getTailNode().getValue()
-		}
-		for i := 1; i <= int(kth)-1; i++ {
-			currNode = currNode.getPrvNode()
-		}
-		return currNode.getValue()
-	} else {
-		fmt.Printf("Empty List\n")
-		return -1
+		fmt.Println("List-Size: 0")
 	}
 }
