@@ -16,5 +16,3 @@ type Hashmapi interface {
 	remove(k int)
 	genHash()
 }
-
-// methods required to design
