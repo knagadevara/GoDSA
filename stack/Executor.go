@@ -2,15 +2,15 @@ package stack
 
 func Exec() {
 	var stk stack
-	stk.Push('I')
+	stk.Push('H')
 	stk.Push('A')
-	stk.Push('S')
+	stk.Push('R')
+	stk.Push('R')
+	stk.Push('Y')
 	stk.Push('-')
-	stk.Push('K')
+	stk.Push('J')
 	stk.Push('-')
-	stk.Push('N')
-	stk.Push('-')
-	stk.Push('V')
+	stk.Push('P')
 	stk.Push('-')
 	stk.PrintStack()
 	stk = *stk.reverseStk()
@@ -23,26 +23,27 @@ func Exec() {
 	stk.Push('V')
 	stk.PrintStack()
 	stk.getSize()
-	reverseString("SaiKarthik").PrintStack()
-	isBalanced("[(Sai][<VNK]>)")
-	isBalanced("[(Sai)<VNK>]")
+	reverseString("KaMeaLot").PrintStack()
+	isBalanced("[(Harry][<Potter]>)")
+	isBalanced("[(Harry)<JP>]")
 }
 
 func QueStk() {
 	var qstk Queue
-
-	qstk.AddInQ('A')
-	qstk.AddInQ('B')
-	qstk.AddInQ('C')
+	qstk.RemFrmQ()
+	qstk.AddInQ('R')
+	qstk.AddInQ('I')
 	qstk.AddInQ('D')
+	qstk.AddInQ('D')
+	qstk.AddInQ('L')
 	qstk.AddInQ('E')
 
+	qstk.AddInQ('T')
+	qstk.AddInQ('O')
+	qstk.AddInQ('M')
+
 	qstk.RemFrmQ()
-
-	qstk.AddInQ('I')
-	qstk.AddInQ('A')
-	qstk.AddInQ('S')
-
+	qstk.RemFrmQ()
 	qstk.RemFrmQ()
 
 }

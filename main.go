@@ -1,16 +1,14 @@
 package main
 
 import (
-	hashmap "GoDS/hash_map"
+	"GoDS/hashmap"
 	"GoDS/linkedlist"
 	"GoDS/queue"
 	"GoDS/stack"
-	"fmt"
 )
 
 func main() {
-	pword := hashmap.PurifyString("               9sjldkbfkjsf pewytopwqytopqyt ,nbnm cdvdxv")
-	fmt.Printf("%c\n", hashmap.GetFirstElement(pword, 1))
+	hashmap.Exec()
 	stack.QueStk()
 	stack.Exec()
 	linkedlist.Exec()

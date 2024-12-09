@@ -40,6 +40,20 @@ func PrintRuneIntArr(mapsMan *map[rune][]int) {
 }
 
 func GetFirstElement(pword string, repCnt int) rune {
+	indx := *CountRepeatChar2(pword)
+	for ix, v := range pword {
+		for rn, ixArr := range indx {
+			if len(ixArr) == repCnt {
+				if ix == ixArr[0] && rn == v {
+					return rn
+				}
+			}
+		}
+	}
+	return '-'
+}
+
+func GetFirstElement2(pword string, repCnt int) rune {
 	if indx, OK := ReverseRuneInt(CountRepeatChar(pword))[repCnt]; !OK {
 		return '-'
 	} else {
@@ -49,20 +63,6 @@ func GetFirstElement(pword string, repCnt int) rune {
 					return v
 				} else {
 					continue
-				}
-			}
-		}
-	}
-	return '-'
-}
-
-func GetFirstNonrepeatElement2(pword string) rune {
-	indx := *CountRepeatChar2(pword)
-	for ix, v := range pword {
-		for rn, ixArr := range indx {
-			if len(ixArr) == 1 {
-				if ix == ixArr[0] && rn == v {
-					return rn
 				}
 			}
 		}
