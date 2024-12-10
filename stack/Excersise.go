@@ -1,7 +1,7 @@
 package stack
 
-func reverseString(word string) *stack {
-	var revStk stack
+func reverseString(word string) *Stack[rune] {
+	var revStk Stack[rune]
 	for _, v := range word {
 		revStk.Push(v)
 	}
@@ -9,19 +9,19 @@ func reverseString(word string) *stack {
 }
 
 func isBalanced(expr string) bool {
-	var opFl stack
+	var opFl Stack[rune]
 	var isBal bool
 	for _, v := range expr {
 		switch v {
-		case R_OPEN_SQUARE, R_OPEN_PRNTH, R_OPEN_BRACE, R_OPEN_ANGLR:
+		case '[', '(', '{', '<':
 			opFl.Push(v)
-		case R_CLOSE_SQUARE, R_CLOSE_PRNTH, R_CLOSE_BRACE, R_CLOSE_ANGLR:
+		case ']', ')', '}', '>':
 			if opFl.sizeOff() != 0 {
 				popped := opFl.Pop().getElement()
-				if v == R_CLOSE_ANGLR && popped == R_OPEN_ANGLR ||
-					v == R_CLOSE_SQUARE && popped == R_OPEN_SQUARE ||
-					v == R_CLOSE_PRNTH && popped == R_OPEN_PRNTH ||
-					v == R_CLOSE_BRACE && popped == R_OPEN_BRACE {
+				if v == '>' && popped == '<' ||
+					v == ']' && popped == '[' ||
+					v == ')' && popped == '(' ||
+					v == '}' && popped == '{' {
 					isBal = true
 				} else {
 					isBal = false

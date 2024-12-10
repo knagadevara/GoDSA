@@ -1,7 +1,7 @@
 package stack
 
 func Exec() {
-	var stk stack
+	var stk Stack[rune]
 	stk.Push('H')
 	stk.Push('A')
 	stk.Push('R')
@@ -29,7 +29,7 @@ func Exec() {
 }
 
 func QueStk() {
-	var qstk Queue
+	var qstk Queue[rune]
 	qstk.RemFrmQ()
 	qstk.AddInQ('R')
 	qstk.AddInQ('I')

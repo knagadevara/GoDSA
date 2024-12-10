@@ -2,47 +2,43 @@ package stack
 
 import "fmt"
 
-func (e *stkElm) getElement() rune {
-	return e.element
+func (e *StkElm[T]) getElement() T {
+	return e.Element
 }
 
-func (e *stkElm) setFrontElm(stkElm *stkElm) {
-	e.frontElem = stkElm
+func (e *StkElm[T]) setFrontElm(stkElm *StkElm[T]) {
+	e.FrontElem = stkElm
 }
 
-func (e *stkElm) getFrontElm() *stkElm {
-	return e.frontElem
+func (e *StkElm[T]) getFrontElm() *StkElm[T] {
+	return e.FrontElem
 }
 
-func (e *stack) sizeOff() int {
-	return e.size
+func (e *Stack[T]) sizeOff() int {
+	return e.Size
 }
 
-func (e *stack) IncElem() {
-	e.size += 1
+func (e *Stack[T]) IncElem() {
+	e.Size += 1
 }
 
-func (e *stack) DecElem() {
-	e.size -= 1
+func (e *Stack[T]) DecElem() {
+	e.Size -= 1
 }
 
-func (s *stack) getFirstElm() *stkElm {
-	return s.firstElem
+func (s *Stack[T]) getFirstElm() *StkElm[T] {
+	return s.FirstElem
 }
 
-func (s *stack) setFirstElm(firstElem *stkElm) {
-	s.firstElem = firstElem
+func (s *Stack[T]) setFirstElm(FirstElem *StkElm[T]) {
+	s.FirstElem = FirstElem
 }
 
-func createStackElem(Elem rune) *stkElm {
-	return &stkElm{element: Elem, frontElem: &stkElm{}}
-}
-
-func (s *stack) Push(Elem rune) {
-	item := createStackElem(Elem)
+func (s *Stack[T]) Push(Elem T) {
+	item := CreateStackElem(Elem)
 	s.IncElem()
 	if s.isEmpty() {
-		item.setFrontElm(&stkElm{})
+		item.setFrontElm(&StkElm[T]{})
 		s.setFirstElm(item)
 	} else {
 		item.setFrontElm(s.getFirstElm())
@@ -50,10 +46,10 @@ func (s *stack) Push(Elem rune) {
 	}
 }
 
-func (s *stack) Pop() *stkElm {
+func (s *Stack[T]) Pop() *StkElm[T] {
 	if s.isEmpty() {
-		fmt.Printf("Nothing to Remove!\n")
-		return &stkElm{}
+		fmt.Println("Nothing to Remove!")
+		return &StkElm[T]{}
 	} else {
 		poppedElem := s.getFirstElm()
 		s.setFirstElm(s.getFirstElm().getFrontElm())
@@ -62,29 +58,29 @@ func (s *stack) Pop() *stkElm {
 	}
 }
 
-func (s *stack) Peek() rune {
+func (s *Stack[T]) Peek() T {
 	return s.getFirstElm().getElement()
 }
 
-func (s *stack) isEmpty() bool {
+func (s *Stack[T]) isEmpty() bool {
 	return s.sizeOff() == 0
 }
 
-func (s *stack) getSize() {
+func (s *Stack[T]) getSize() {
 	if s.isEmpty() {
-		fmt.Printf("Empty Stack!")
+		fmt.Println("Empty Stack!")
 	} else {
-		fmt.Printf("Size: %d\n", s.sizeOff())
+		fmt.Println("Size: ", s.sizeOff())
 	}
 }
 
-func (s *stack) reverseStk() *stack {
-	var revStk stack
+func (s *Stack[T]) reverseStk() *Stack[T] {
+	var revStk Stack[T]
 	if s.isEmpty() {
 		fmt.Printf("Nothing to Reverse!")
 	} else {
 		for {
-			revStk.Push(s.Pop().element)
+			revStk.Push(s.Pop().Element)
 			if s.isEmpty() {
 				break
 			}
@@ -94,11 +90,11 @@ func (s *stack) reverseStk() *stack {
 	return s
 }
 
-func (s *stack) PrintStack() {
+func (s *Stack[T]) PrintStack() {
 	if !(s.isEmpty()) {
 		currElm := s.getFirstElm()
 		for {
-			fmt.Printf("%c ", currElm.getElement())
+			fmt.Println(currElm.getElement())
 			if currElm.getFrontElm() == nil {
 				break
 			} else {

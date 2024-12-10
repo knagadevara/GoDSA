@@ -1,7 +1,7 @@
 package queue
 
 func Exec() {
-	q := createQueueArr(10)
+	q := CreateQueueArr[int](10)
 	q.PrioQueAsc(2)
 	q.EnqueueArr(5)
 	q.PrioQueAsc(12)

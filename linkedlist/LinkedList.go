@@ -58,10 +58,6 @@ func (n *SLinkedList[T]) isEmpty() bool {
 	return n.getHeadNode() == nil || n.getTailNode() == nil || n.sizeOff() == 0
 }
 
-func CreateNode[T comparable](value T) *Node[T] {
-	return &Node[T]{value: value, prvNode: nil, nextNode: nil}
-}
-
 func (n *SLinkedList[T]) setInitialNode(node *Node[T]) {
 	node.setPrvNode(node)
 	node.setNextNode(node)

@@ -1,21 +1,21 @@
 package stack
 
-type stkElm struct {
-	element   rune
-	frontElem *stkElm
+import "cmp"
+
+type StkElm[T cmp.Ordered] struct {
+	Element   T
+	FrontElem *StkElm[T]
 }
 
-type stack struct {
-	size      int
-	firstElem *stkElm
+type Stack[T cmp.Ordered] struct {
+	Size      int
+	FirstElem *StkElm[T]
 }
 
-// const BRACKETS string = "(){}[]<>"
-const R_OPEN_PRNTH rune = '('
-const R_CLOSE_PRNTH rune = ')'
-const R_OPEN_BRACE rune = '{'
-const R_CLOSE_BRACE rune = '}'
-const R_OPEN_SQUARE rune = '['
-const R_CLOSE_SQUARE rune = ']'
-const R_OPEN_ANGLR rune = '<'
-const R_CLOSE_ANGLR rune = '>'
+type Queue[T cmp.Ordered] struct {
+	q1, q2 Stack[T]
+}
+
+func CreateStackElem[T cmp.Ordered](Elem T) *StkElm[T] {
+	return &StkElm[T]{Element: Elem, FrontElem: &StkElm[T]{}}
+}
