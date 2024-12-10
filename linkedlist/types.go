@@ -1,18 +1,16 @@
 package linkedlist
 
-import "cmp"
-
-type Node[T cmp.Ordered] struct {
+type Node[T comparable] struct {
 	value             T
 	prvNode, nextNode *Node[T]
 }
 
-type SLinkedList[T cmp.Ordered] struct {
+type SLinkedList[T comparable] struct {
 	size               uint16
 	headNode, tailNode *Node[T]
 }
 
-type LinkedList[T cmp.Ordered] interface {
+type LinkedList[T comparable] interface {
 	AddAtFirst(value T)
 	AddAtLast(value T)
 	DeleteAtFirst()
@@ -22,6 +20,6 @@ type LinkedList[T cmp.Ordered] interface {
 	PrintSize()
 }
 
-func CreateNode[T cmp.Ordered](value T) *Node[T] {
+func CreateNode[T comparable](value T) *Node[T] {
 	return &Node[T]{value: value, prvNode: nil, nextNode: nil}
 }

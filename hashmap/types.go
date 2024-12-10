@@ -1,13 +1,13 @@
 package hashmap
 
-type KV struct {
-	Key int
-	Val string
+type KV[T1, T2 comparable] struct {
+	Key T1
+	Val T2
 }
 
-type HashMap struct {
-	KvPair []KV
-	Size   int
+type HashMap[T1, T2 comparable] struct {
+	KvPair []KV[T1, T2]
+	Size   uint
 }
 
 type Hashmapi interface {
