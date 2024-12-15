@@ -13,13 +13,17 @@ func (a *Arrayadt[T]) IsFull() bool {
 	return a.length == a.capasity
 }
 
-func (a *Arrayadt[T]) IsBound(ix int) bool {
+func (a *Arrayadt[T]) InCap(ix int) bool {
 	return ix <= a.capasity-1
+}
+
+func (a *Arrayadt[T]) IsBound(ix int) bool {
+	return ix <= a.length-1
 }
 
 func (a *Arrayadt[T]) Display() error {
 	if !(a.IsEmpty()) {
-		for i := 0; i < len(a.adt); i++ {
+		for i := 0; i < a.length; i++ {
 			fmt.Println(a.adt[i])
 		}
 		return nil
@@ -52,7 +56,7 @@ func (a *Arrayadt[T]) Delete() error {
 
 func (a *Arrayadt[T]) Insert(index int, val T) error {
 	if !(a.IsFull()) {
-		if a.IsBound(index) {
+		if a.InCap(index) {
 			a.adt[index] = val
 			if !(index < a.length) {
 				a.length += 1
@@ -69,8 +73,10 @@ func (a *Arrayadt[T]) Insert(index int, val T) error {
 }
 
 func (a *Arrayadt[T]) Remove(index int) error {
-	if !(a.IsEmpty()) && index <= len(a.adt)-1 {
-		for i := index; i < len(a.adt)-1; i++ {
+	if !(a.IsEmpty()) && index <= a.length-1 {
+		var nullVal T
+		a.adt[index] = nullVal
+		for i := index; i < a.length-1; i++ {
 			a.adt[i] = a.adt[i+1]
 		}
 		a.length -= 1
@@ -92,7 +98,7 @@ func (a *Arrayadt[T]) Swap(ix1, ix2 int) error {
 }
 
 func (a *Arrayadt[T]) Get(index int) (T, error) {
-	if a.IsBound(index) {
+	if a.InCap(index) {
 		return a.adt[index], nil
 	} else {
 		var nullType T
@@ -100,25 +106,25 @@ func (a *Arrayadt[T]) Get(index int) (T, error) {
 	}
 }
 
-func (a *Arrayadt[T]) ArContains(key T) bool {
+func (a *Arrayadt[T]) ArContains(key T) (bool, int) {
 	if !(a.IsEmpty()) {
-		for i := 0; i < len(a.adt); i++ {
+		for i := 0; i < a.length; i++ {
 			if key == a.adt[i] {
-				return true
+				return true, i
 			}
 		}
 	}
-	return false
+	return false, -1
 }
 
 func (a *Arrayadt[T]) Reverse() {
 	if !(a.IsEmpty()) {
 		var rivArr = make([]T, a.capasity)
-		for i := len(a.adt) - 1; i <= 0; i-- {
-			indx := i - (len(a.adt) - 1)
+		for i := a.length - 1; i >= 0; i-- {
+			indx := (a.length - 1) - i
 			rivArr[indx] = a.adt[i]
+			// fmt.Println(rivArr[indx])
 		}
+		a.adt = rivArr
 	}
 }
-
-////
