@@ -13,3 +13,13 @@ func CreateHashNode[T1, T2 comparable](key T1, value T2) *Node[KV[T1, T2]] {
 	nwKV.nextNode = nil
 	return &nwKV
 }
+
+func (kv *KV[T1, T2]) settKV(k T1, v T2) *KV[T1, T2] {
+	kv.Key = k
+	kv.Val = v
+	return kv
+}
+
+func hashPlace() {
+
+}

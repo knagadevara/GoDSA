@@ -77,7 +77,7 @@ func (s *Stack[T]) getSize() {
 func (s *Stack[T]) reverseStk() *Stack[T] {
 	var revStk Stack[T]
 	if s.isEmpty() {
-		fmt.Printf("Nothing to Reverse!")
+		fmt.Println("Nothing to Reverse!")
 	} else {
 		for {
 			revStk.Push(s.Pop().Element)
