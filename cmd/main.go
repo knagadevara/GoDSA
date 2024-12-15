@@ -1,6 +1,7 @@
 package main
 
 import (
+	arrayadt "GoDSA/array_adt"
 	"GoDSA/hashmap"
 	"GoDSA/linkedlist"
 	"GoDSA/queue"
@@ -13,4 +14,5 @@ func main() {
 	stack.Exec()
 	linkedlist.Exec()
 	queue.Exec()
+	arrayadt.Exec()
 }
