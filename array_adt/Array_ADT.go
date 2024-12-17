@@ -57,10 +57,11 @@ func (a *Arrayadt[T]) Delete() error {
 func (a *Arrayadt[T]) Insert(index int, val T) error {
 	if !(a.IsFull()) {
 		if a.InCap(index) {
-			a.adt[index] = val
-			if !(index < a.length) {
-				a.length += 1
+			for i := a.length; i >= index; i-- {
+				a.adt[i+1] = a.adt[i]
 			}
+			a.adt[index] = val
+			a.length += 1
 		} else {
 			fmt.Println("Index Out Of Range")
 			return errors.New("index-out-of-range")
@@ -72,18 +73,18 @@ func (a *Arrayadt[T]) Insert(index int, val T) error {
 	return nil
 }
 
-func (a *Arrayadt[T]) Remove(index int) error {
+func (a *Arrayadt[T]) RmPop(index int) (T, error) {
+	var nullVal T
 	if !(a.IsEmpty()) && index <= a.length-1 {
-		var nullVal T
-		a.adt[index] = nullVal
-		for i := index; i < a.length-1; i++ {
+		nullVal = a.adt[index]
+		for i := index; i < a.length; i++ {
 			a.adt[i] = a.adt[i+1]
 		}
 		a.length -= 1
-		return nil
+		return nullVal, nil
 	}
-	fmt.Println("Index Out Of Range")
-	return errors.New("index-out-of-range")
+	fmt.Println("Empty Array or Index Out Of Range")
+	return nullVal, errors.New("Empty-array-or-index-out-of-range")
 }
 
 func (a *Arrayadt[T]) Swap(ix1, ix2 int) error {
@@ -123,7 +124,6 @@ func (a *Arrayadt[T]) Reverse() {
 		for i := a.length - 1; i >= 0; i-- {
 			indx := (a.length - 1) - i
 			rivArr[indx] = a.adt[i]
-			// fmt.Println(rivArr[indx])
 		}
 		a.adt = rivArr
 	}
