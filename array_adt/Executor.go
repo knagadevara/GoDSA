@@ -1,6 +1,9 @@
 package arrayadt
 
-import "fmt"
+import (
+	"fmt"
+	"slices"
+)
 
 func Exec() {
 	IntArr := MakeArrAdt[int](10)
@@ -13,14 +16,12 @@ func Exec() {
 	IntArr.Insert(0, 99)
 	IntArr.Insert(3, 56)
 	IntArr.Insert(4, 86)
+	IntArr.Insert(9, 16)
 	IntArr.Display()
-	fmt.Println(IntArr.RmPop(0))
-	fmt.Println(IntArr.RmPop(0))
-	fmt.Println(IntArr.RmPop(0))
-	fmt.Println(IntArr.RmPop(0))
-	fmt.Println("Removed First Element")
 	IntArr.Display()
 	IntArr.Reverse()
-	fmt.Println(IntArr.Swap(0, 4))
+	IntArr.ArContains(16)
+	slices.Sort(IntArr.adt)
+	fmt.Println(IntArr.ArContainsBS(40))
 	IntArr.Display()
 }

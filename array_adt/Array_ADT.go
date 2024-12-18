@@ -5,31 +5,23 @@ import (
 	"fmt"
 )
 
-func (a *Arrayadt[T]) IsEmpty() bool {
-	return a.length == 0
-}
-
-func (a *Arrayadt[T]) IsFull() bool {
-	return a.length == a.capasity
-}
-
-func (a *Arrayadt[T]) InCap(ix int) bool {
-	return ix <= a.capasity-1
-}
-
-func (a *Arrayadt[T]) IsBound(ix int) bool {
-	return ix <= a.length-1
-}
+func (a *Arrayadt[T]) IsEmpty() bool       { return a.length == 0 }
+func (a *Arrayadt[T]) IsFull() bool        { return a.length == a.capasity }
+func (a *Arrayadt[T]) InCap(ix int) bool   { return ix <= a.capasity-1 }
+func (a *Arrayadt[T]) IsBound(ix int) bool { return ix <= a.length-1 }
+func (a *Arrayadt[T]) Len() int            { return len(a.adt) }
+func (a *Arrayadt[T]) Swap(i, j int)       { a.adt[i], a.adt[j] = a.adt[j], a.adt[i] }
+func (a *Arrayadt[T]) Less(i, j int) bool  { return a.adt[i] < a.adt[j] }
 
 func (a *Arrayadt[T]) Display() error {
 	if !(a.IsEmpty()) {
-		for i := 0; i < a.length; i++ {
+		for i := 0; i < a.capasity; i++ {
 			fmt.Println(a.adt[i])
 		}
 		return nil
 	} else {
-		fmt.Println("Empty Array!")
-		return errors.New("empty-array")
+		fmt.Println("Empty Array! Nothing To Display.")
+		return errors.New("empty-array-nothing-to-display")
 	}
 }
 
@@ -39,8 +31,8 @@ func (a *Arrayadt[T]) Addpend(val T) error {
 		a.length += 1
 		return nil
 	}
-	fmt.Println("Capacity Full!")
-	return errors.New("capacity-full")
+	fmt.Println("Capacity Full! Unable to Append.")
+	return errors.New("capacity-full-unable-to-ppend")
 }
 
 func (a *Arrayadt[T]) Delete() error {
@@ -50,8 +42,8 @@ func (a *Arrayadt[T]) Delete() error {
 		a.length -= 1
 		return nil
 	}
-	fmt.Println("Nothing to Delete!")
-	return errors.New("nothing-to-delete")
+	fmt.Println("Empty Array! Nothing to Delete!")
+	return errors.New("empty-array-nothing-to-delete")
 }
 
 func (a *Arrayadt[T]) Insert(index int, val T) error {
@@ -67,28 +59,33 @@ func (a *Arrayadt[T]) Insert(index int, val T) error {
 			return errors.New("index-out-of-range")
 		}
 	} else {
-		fmt.Println("Capacity Full!")
-		return errors.New("capacity-full")
+		fmt.Println("Capacity Full! Unable to Insert.")
+		return errors.New("capacity-full-unable-to-nsert")
 	}
 	return nil
 }
 
 func (a *Arrayadt[T]) RmPop(index int) (T, error) {
 	var nullVal T
-	if !(a.IsEmpty()) && index <= a.length-1 {
-		nullVal = a.adt[index]
-		for i := index; i < a.length; i++ {
-			a.adt[i] = a.adt[i+1]
+	if !(a.IsEmpty()) {
+		if a.IsBound(index) {
+			nullVal = a.adt[index]
+			for i := index; i < a.length; i++ {
+				a.adt[i] = a.adt[i+1]
+			}
+			a.length -= 1
+			return nullVal, nil
+		} else {
+			fmt.Println("Index Out Of Range")
+			return nullVal, errors.New("index-out-of-range")
 		}
-		a.length -= 1
-		return nullVal, nil
 	}
-	fmt.Println("Empty Array or Index Out Of Range")
-	return nullVal, errors.New("Empty-array-or-index-out-of-range")
+	fmt.Println("Empty Array! Nothing to Remove")
+	return nullVal, errors.New("empty-array-nothing-to-remove")
 }
 
-func (a *Arrayadt[T]) Swap(ix1, ix2 int) error {
-	if ix1 != ix2 && a.IsBound(ix1) && a.IsBound(ix2) {
+func (a *Arrayadt[T]) SwapI(ix1, ix2 int) error {
+	if ix1 != ix2 && a.InCap(ix1) && a.InCap(ix2) {
 		temp := a.adt[ix1]
 		a.adt[ix1] = a.adt[ix2]
 		a.adt[ix2] = temp
@@ -103,15 +100,43 @@ func (a *Arrayadt[T]) Get(index int) (T, error) {
 		return a.adt[index], nil
 	} else {
 		var nullType T
-		return nullType, errors.New("invalid-index")
+		return nullType, errors.New("index-out-of-range")
 	}
 }
 
-func (a *Arrayadt[T]) ArContains(key T) (bool, int) {
+func (a *Arrayadt[T]) ArContains(val T) (bool, int) {
 	if !(a.IsEmpty()) {
-		for i := 0; i < a.length; i++ {
-			if key == a.adt[i] {
+		for i := 0; i < a.capasity; i++ {
+			if a.adt[i] == val {
+				a.SwapI(i-1, i)
 				return true, i
+			}
+		}
+	}
+	return false, -1
+}
+
+func (a *Arrayadt[T]) ArContainsBS(val T) (bool, int) {
+	var h, l, m int
+	h = a.capasity - 1
+	if !(a.IsEmpty()) {
+		for {
+			m = (h + l) / 2
+			if val == a.adt[h] {
+				return true, h
+			} else if val == a.adt[l] {
+				return true, h
+			} else {
+				if val > a.adt[m] {
+					l = m + 1
+				} else {
+					h = m - 1
+				}
+				if h == m {
+					break
+				} else {
+					continue
+				}
 			}
 		}
 	}
@@ -121,8 +146,8 @@ func (a *Arrayadt[T]) ArContains(key T) (bool, int) {
 func (a *Arrayadt[T]) Reverse() {
 	if !(a.IsEmpty()) {
 		var rivArr = make([]T, a.capasity)
-		for i := a.length - 1; i >= 0; i-- {
-			indx := (a.length - 1) - i
+		for i := a.capasity - 1; i >= 0; i-- {
+			indx := (a.capasity - 1) - i
 			rivArr[indx] = a.adt[i]
 		}
 		a.adt = rivArr

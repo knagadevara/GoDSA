@@ -1,12 +1,16 @@
 package arrayadt
 
-type Arrayadt[T comparable] struct {
+import (
+	"cmp"
+)
+
+type Arrayadt[T cmp.Ordered] struct {
 	adt      []T
 	length   int
 	capasity int
 }
 
-type ArrayadtI[T comparable] interface {
+type ArrayadtI[T cmp.Ordered] interface {
 	Display() error
 	IsEmpty() bool
 	IsFull() bool
@@ -21,6 +25,6 @@ type ArrayadtI[T comparable] interface {
 	Reverse()
 }
 
-func MakeArrAdt[T comparable](sz int) *Arrayadt[T] {
+func MakeArrAdt[T cmp.Ordered](sz int) *Arrayadt[T] {
 	return &Arrayadt[T]{adt: make([]T, sz), capasity: sz}
 }
