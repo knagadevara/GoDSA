@@ -7,8 +7,8 @@ import (
 
 func (a *Arrayadt[T]) IsEmpty() bool       { return a.length == 0 }
 func (a *Arrayadt[T]) IsFull() bool        { return a.length == a.capasity }
-func (a *Arrayadt[T]) InCap(ix int) bool   { return ix <= a.capasity-1 }
-func (a *Arrayadt[T]) IsBound(ix int) bool { return ix <= a.length-1 }
+func (a *Arrayadt[T]) InCap(ix int) bool   { return ix <= a.capasity-1 && ix >= 0 }
+func (a *Arrayadt[T]) IsBound(ix int) bool { return ix <= a.length-1 && ix >= 0 }
 func (a *Arrayadt[T]) Len() int            { return len(a.adt) }
 func (a *Arrayadt[T]) Swap(i, j int)       { a.adt[i], a.adt[j] = a.adt[j], a.adt[i] }
 func (a *Arrayadt[T]) Less(i, j int) bool  { return a.adt[i] < a.adt[j] }
@@ -122,10 +122,8 @@ func (a *Arrayadt[T]) ArContainsBS(val T) (bool, int) {
 	if !(a.IsEmpty()) {
 		for {
 			m = (h + l) / 2
-			if val == a.adt[h] {
-				return true, h
-			} else if val == a.adt[l] {
-				return true, h
+			if val == a.adt[m] {
+				return true, m
 			} else {
 				if val > a.adt[m] {
 					l = m + 1

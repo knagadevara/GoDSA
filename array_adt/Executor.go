@@ -18,7 +18,6 @@ func Exec() {
 	IntArr.Insert(4, 86)
 	IntArr.Insert(9, 16)
 	IntArr.Display()
-	IntArr.Display()
 	IntArr.Reverse()
 	IntArr.ArContains(16)
 	slices.Sort(IntArr.adt)
