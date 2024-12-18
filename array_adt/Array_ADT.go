@@ -5,13 +5,12 @@ import (
 	"fmt"
 )
 
-func (a *Arrayadt[T]) IsEmpty() bool       { return a.length == 0 }
-func (a *Arrayadt[T]) IsFull() bool        { return a.length == a.capasity }
-func (a *Arrayadt[T]) InCap(ix int) bool   { return ix <= a.capasity-1 && ix >= 0 }
-func (a *Arrayadt[T]) IsBound(ix int) bool { return ix <= a.length-1 && ix >= 0 }
-func (a *Arrayadt[T]) Len() int            { return len(a.adt) }
-func (a *Arrayadt[T]) Swap(i, j int)       { a.adt[i], a.adt[j] = a.adt[j], a.adt[i] }
-func (a *Arrayadt[T]) Less(i, j int) bool  { return a.adt[i] < a.adt[j] }
+func (a *Arrayadt[T]) IsEmpty() bool      { return a.length == 0 }
+func (a *Arrayadt[T]) IsFull() bool       { return a.length == a.capasity }
+func (a *Arrayadt[T]) InCap(ix int) bool  { return ix <= a.capasity-1 && ix >= 0 }
+func (a *Arrayadt[T]) Len() int           { return len(a.adt) }
+func (a *Arrayadt[T]) Swap(i, j int)      { a.adt[i], a.adt[j] = a.adt[j], a.adt[i] }
+func (a *Arrayadt[T]) Less(i, j int) bool { return a.adt[i] < a.adt[j] }
 
 func (a *Arrayadt[T]) Display() error {
 	if !(a.IsEmpty()) {
@@ -68,7 +67,7 @@ func (a *Arrayadt[T]) Insert(index int, val T) error {
 func (a *Arrayadt[T]) RmPop(index int) (T, error) {
 	var nullVal T
 	if !(a.IsEmpty()) {
-		if a.IsBound(index) {
+		if a.InCap(index) {
 			nullVal = a.adt[index]
 			for i := index; i < a.length; i++ {
 				a.adt[i] = a.adt[i+1]
@@ -95,8 +94,17 @@ func (a *Arrayadt[T]) SwapI(ix1, ix2 int) error {
 	return errors.New("incorrect-index-swapping")
 }
 
+func (a *Arrayadt[T]) Set(index int, val T) error {
+	if !(a.IsEmpty()) && a.InCap(index) {
+		a.adt[index] = val
+		return nil
+	} else {
+		return errors.New("index-out-of-range")
+	}
+}
+
 func (a *Arrayadt[T]) Get(index int) (T, error) {
-	if a.InCap(index) {
+	if !(a.IsEmpty()) && a.InCap(index) {
 		return a.adt[index], nil
 	} else {
 		var nullType T
@@ -108,7 +116,7 @@ func (a *Arrayadt[T]) ArContains(val T) (bool, int) {
 	if !(a.IsEmpty()) {
 		for i := 0; i < a.capasity; i++ {
 			if a.adt[i] == val {
-				a.SwapI(i-1, i)
+				a.Swap(i-1, i)
 				return true, i
 			}
 		}
@@ -130,7 +138,7 @@ func (a *Arrayadt[T]) ArContainsBS(val T) (bool, int) {
 				} else {
 					h = m - 1
 				}
-				if l == h {
+				if l >= h {
 					break
 				} else {
 					continue
@@ -145,9 +153,62 @@ func (a *Arrayadt[T]) Reverse() {
 	if !(a.IsEmpty()) {
 		var rivArr = make([]T, a.capasity)
 		for i := a.capasity - 1; i >= 0; i-- {
-			indx := (a.capasity - 1) - i
-			rivArr[indx] = a.adt[i]
+			index := (a.capasity - 1) - i
+			rivArr[index] = a.adt[i]
 		}
 		a.adt = rivArr
 	}
+}
+
+func (a *Arrayadt[T]) Reverse2() {
+	if !(a.IsEmpty()) {
+		i := a.capasity - 1
+		for {
+			a.Swap((a.capasity-1)-i, i)
+			i--
+			if i == (a.capasity-1)/2 {
+				break
+			}
+		}
+	}
+}
+
+func (a *Arrayadt[T]) Max() T {
+	var cmpOp T
+	if !(a.IsEmpty()) {
+		for i := 0; i <= a.capasity-1; i++ {
+			if a.adt[i] > cmpOp {
+				cmpOp = a.adt[i]
+			}
+		}
+	}
+	return cmpOp
+}
+
+func (a *Arrayadt[T]) Min() T {
+	var cmpOp T
+	if !(a.IsEmpty()) {
+		for i := 0; i <= a.capasity-1; i++ {
+			if a.adt[i] < cmpOp {
+				cmpOp = a.adt[i]
+			}
+		}
+	}
+	return cmpOp
+}
+
+func Sum(arr []int) int {
+	var cmpOp int
+	for i := 0; i <= len(arr)-1; i++ {
+		cmpOp += arr[i]
+	}
+	return cmpOp
+}
+
+func Avg(arr []int) int {
+	var cmpOp int
+	for i := 0; i <= len(arr)-1; i++ {
+		cmpOp += arr[i]
+	}
+	return cmpOp / len(arr)
 }
