@@ -6,7 +6,7 @@ import (
 )
 
 func Exec() {
-	IntArr := MakeArrAdt[int](10)
+	IntArr := MakeArrAdt[int](11)
 	fmt.Println(IntArr.RmPop(0))
 	IntArr.Addpend(10)
 	IntArr.Addpend(20)
@@ -21,6 +21,7 @@ func Exec() {
 	IntArr.Reverse()
 	IntArr.ArContains(16)
 	slices.Sort(IntArr.adt)
-	fmt.Println(IntArr.ArContainsBS(40))
 	IntArr.Display()
+	fmt.Println(IntArr.ArContainsBS(0))
+	fmt.Println(IntArr.ArContainsBS(30))
 }

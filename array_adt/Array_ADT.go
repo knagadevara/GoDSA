@@ -130,7 +130,7 @@ func (a *Arrayadt[T]) ArContainsBS(val T) (bool, int) {
 				} else {
 					h = m - 1
 				}
-				if h == m {
+				if l == h {
 					break
 				} else {
 					continue
