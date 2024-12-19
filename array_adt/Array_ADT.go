@@ -1,6 +1,7 @@
 package arrayadt
 
 import (
+	"cmp"
 	"errors"
 	"fmt"
 )
@@ -19,7 +20,6 @@ func (a *Arrayadt[T]) Display() error {
 		}
 		return nil
 	} else {
-		fmt.Println("Empty Array! Nothing To Display.")
 		return errors.New("empty-array-nothing-to-display")
 	}
 }
@@ -30,7 +30,6 @@ func (a *Arrayadt[T]) Addpend(val T) error {
 		a.length += 1
 		return nil
 	}
-	fmt.Println("Capacity Full! Unable to Append.")
 	return errors.New("capacity-full-unable-to-ppend")
 }
 
@@ -41,24 +40,48 @@ func (a *Arrayadt[T]) Delete() error {
 		a.length -= 1
 		return nil
 	}
-	fmt.Println("Empty Array! Nothing to Delete!")
 	return errors.New("empty-array-nothing-to-delete")
 }
 
 func (a *Arrayadt[T]) Insert(index int, val T) error {
 	if !(a.IsFull()) {
 		if a.InCap(index) {
-			for i := a.length; i >= index; i-- {
-				a.adt[i+1] = a.adt[i]
+			if index > a.length-1 {
+				a.adt[a.length] = val
+			} else {
+				for i := a.length; i >= index; i-- {
+					a.adt[i+1] = a.adt[i]
+				}
+				a.adt[index] = val
 			}
-			a.adt[index] = val
 			a.length += 1
 		} else {
-			fmt.Println("Index Out Of Range")
 			return errors.New("index-out-of-range")
 		}
 	} else {
-		fmt.Println("Capacity Full! Unable to Insert.")
+		return errors.New("capacity-full-unable-to-nsert")
+	}
+	return nil
+}
+
+func (a *Arrayadt[T]) SortedInsert(val T) error {
+	if !(a.IsFull()) {
+		i := a.length
+		for {
+			if a.length == a.capasity-1 {
+				return errors.New("capacity-almost-full-go-for-to-insert")
+			}
+			if a.adt[i] > val {
+				a.adt[i+1] = a.adt[i]
+				i--
+				continue
+			} else {
+				a.adt[i+1] = val
+				break
+			}
+		}
+		a.length += 1
+	} else {
 		return errors.New("capacity-full-unable-to-nsert")
 	}
 	return nil
@@ -75,11 +98,9 @@ func (a *Arrayadt[T]) RmPop(index int) (T, error) {
 			a.length -= 1
 			return nullVal, nil
 		} else {
-			fmt.Println("Index Out Of Range")
 			return nullVal, errors.New("index-out-of-range")
 		}
 	}
-	fmt.Println("Empty Array! Nothing to Remove")
 	return nullVal, errors.New("empty-array-nothing-to-remove")
 }
 
@@ -90,8 +111,55 @@ func (a *Arrayadt[T]) SwapI(ix1, ix2 int) error {
 		a.adt[ix2] = temp
 		return nil
 	}
-	fmt.Println("Swaping Not Possible! Check Indices.")
 	return errors.New("incorrect-index-swapping")
+}
+
+func (a *Arrayadt[T]) IsSorted() bool {
+	if !(a.IsEmpty()) {
+		for i := 0; i < a.length-1; i++ {
+			if a.adt[i] < a.adt[i+1] {
+				continue
+			} else {
+				return false
+			}
+		}
+	}
+	return true
+}
+
+func MergeSortedArray[T cmp.Ordered](A1, A2 []T) []T {
+	var mergArr = make([]T, len(A1)+len(A2))
+	var i, j, k int
+	for {
+		if i >= len(mergArr)-1 {
+			break
+		} else {
+			for {
+				if j >= len(A1)-1 {
+					break
+				} else {
+					for {
+						if k >= len(A2)-1 {
+							break
+						} else {
+							if A1[j] > A2[k] {
+								mergArr[i] = A1[j]
+							} else if A1[j] < A2[k] {
+								mergArr[i] = A2[k]
+							} else {
+								continue
+							}
+							k++
+						}
+					}
+
+					j++
+				}
+				i++
+			}
+		}
+	}
+	return mergArr
 }
 
 func (a *Arrayadt[T]) Set(index int, val T) error {
@@ -195,20 +263,4 @@ func (a *Arrayadt[T]) Min() T {
 		}
 	}
 	return cmpOp
-}
-
-func Sum(arr []int) int {
-	var cmpOp int
-	for i := 0; i <= len(arr)-1; i++ {
-		cmpOp += arr[i]
-	}
-	return cmpOp
-}
-
-func Avg(arr []int) int {
-	var cmpOp int
-	for i := 0; i <= len(arr)-1; i++ {
-		cmpOp += arr[i]
-	}
-	return cmpOp / len(arr)
 }

@@ -17,7 +17,10 @@ func Exec() {
 	IntArr.Insert(3, 56)
 	IntArr.Insert(4, 86)
 	IntArr.Insert(9, 16)
+	IntArr.Insert(9, 65)
 	slices.Sort(IntArr.adt)
+	IntArr.SortedInsert(39)
+	fmt.Println(IntArr.IsSorted())
 	fmt.Println(IntArr.ArContainsBS(0))
 	fmt.Println(IntArr.ArContainsBS(31))
 	fmt.Println("Max: ", IntArr.Max())
@@ -27,5 +30,12 @@ func Exec() {
 	fmt.Println("Riversed")
 	IntArr.Reverse2()
 	IntArr.Display()
-
+	var a1 = make([]int, 4)
+	a1 = []int{6, 7, 8, 9}
+	var a2 = make([]int, 5)
+	a2 = []int{1, 2, 3, 4, 5}
+	mergedarr := MergeSortedArray[int](a1, a2)
+	for i, v := range mergedarr {
+		fmt.Println(i, v)
+	}
 }
