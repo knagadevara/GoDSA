@@ -5,7 +5,7 @@ import (
 )
 
 type Arrayadt[T cmp.Ordered] struct {
-	adt      []T
+	adt      *[]T
 	length   int
 	capasity int
 }
@@ -23,8 +23,15 @@ type ArrayadtI[T cmp.Ordered] interface {
 	Get(index int) (T, error)
 	ArContains(key T)
 	Reverse()
+
+	Concat()
+	Compare()
+	Copy() *Arrayadt[T]
+	Union()
+	Intersection()
 }
 
 func MakeArrAdt[T cmp.Ordered](sz int) *Arrayadt[T] {
-	return &Arrayadt[T]{adt: make([]T, sz), capasity: sz}
+	var arr = make([]T, sz)
+	return &Arrayadt[T]{adt: &arr, capasity: sz, length: 0}
 }
