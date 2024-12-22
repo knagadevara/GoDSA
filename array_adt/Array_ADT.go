@@ -128,38 +128,46 @@ func (a *Arrayadt[T]) IsSorted() bool {
 }
 
 func MergeSortedArray[T cmp.Ordered](A1, A2 []T) []T {
-	var mergArr = make([]T, len(A1)+len(A2))
-	var i, j, k int
+	var i, j, k, A1Len, A2Len, A3Len int
+	A1Len = len(A1)
+	A2Len = len(A2)
+	var A3 = make([]T, (A1Len + A2Len))
+	A3Len = len(A3)
 	for {
-		if i >= len(mergArr)-1 {
+		if i >= A3Len {
 			break
-		} else {
-			for {
-				if j >= len(A1)-1 {
-					break
-				} else {
-					for {
-						if k >= len(A2)-1 {
-							break
-						} else {
-							if A1[j] > A2[k] {
-								mergArr[i] = A1[j]
-							} else if A1[j] < A2[k] {
-								mergArr[i] = A2[k]
-							} else {
-								continue
-							}
-							k++
-						}
-					}
-
-					j++
-				}
+		} else if j == A1Len && k < A2Len {
+			for _, kv := range A2[k:A2Len] {
+				A3[i] = kv
 				i++
 			}
+			break
+		} else if k == A2Len && j < A1Len {
+			for _, jv := range A1[j:A1Len] {
+				A3[i] = jv
+				i++
+			}
+			break
+		} else if A1[j] < A2[k] {
+			A3[i] = A1[j]
+			if j < A1Len {
+				j++
+			}
+		} else if A1[j] > A2[k] {
+			A3[i] = A2[k]
+			if k < A2Len {
+				k++
+			}
+		} else if A1[j] == A2[k] {
+			A3[i] = A2[k]
+			if k < A2Len && j < A1Len {
+				k++
+				j++
+			}
 		}
+		i++
 	}
-	return mergArr
+	return A3
 }
 
 func (a *Arrayadt[T]) Set(index int, val T) error {

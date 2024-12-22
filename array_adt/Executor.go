@@ -30,10 +30,10 @@ func Exec() {
 	fmt.Println("Riversed")
 	IntArr.Reverse2()
 	IntArr.Display()
-	var a1 = make([]int, 4)
-	a1 = []int{6, 7, 8, 9}
+	var a1 = make([]int, 7)
+	a1 = []int{2, 4, 6, 8, 10, 12, 14}
 	var a2 = make([]int, 5)
-	a2 = []int{1, 2, 3, 4, 5}
+	a2 = []int{1, 3, 5, 7, 9, 11}
 	mergedarr := MergeSortedArray[int](a1, a2)
 	for i, v := range mergedarr {
 		fmt.Println(i, v)
