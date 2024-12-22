@@ -31,10 +31,10 @@ func Exec() {
 	IntArr.Reverse2()
 	IntArr.Display()
 	var a1 = make([]int, 7)
-	a1 = []int{2, 4, 6, 8, 10, 12, 14}
+	a1 = []int{2, 4, 5, 8, 10, 12, 14, 15}
 	var a2 = make([]int, 5)
-	a2 = []int{1, 3, 5, 7, 9, 11}
-	mergedarr := MergeSortedArray[int](a1, a2)
+	a2 = []int{1, 3, 5, 7, 9, 11, 13, 15}
+	mergedarr := UniqMergeSortedArray[int](a1, a2)
 	for i, v := range mergedarr {
 		fmt.Println(i, v)
 	}

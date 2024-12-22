@@ -127,7 +127,7 @@ func (a *Arrayadt[T]) IsSorted() bool {
 	return true
 }
 
-func MergeSortedArray[T cmp.Ordered](A1, A2 []T) []T {
+func UniqMergeSortedArray[T cmp.Ordered](A1, A2 []T) []T {
 	var i, j, k, A1Len, A2Len, A3Len int
 	A1Len = len(A1)
 	A2Len = len(A2)
@@ -137,35 +137,39 @@ func MergeSortedArray[T cmp.Ordered](A1, A2 []T) []T {
 		if i >= A3Len {
 			break
 		} else if j == A1Len && k < A2Len {
-			for _, kv := range A2[k:A2Len] {
+			for _, kv := range A2[k : A2Len-1] {
 				A3[i] = kv
 				i++
 			}
 			break
 		} else if k == A2Len && j < A1Len {
-			for _, jv := range A1[j:A1Len] {
+			for _, jv := range A1[j : A1Len-1] {
 				A3[i] = jv
 				i++
 			}
 			break
-		} else if A1[j] < A2[k] {
-			A3[i] = A1[j]
-			if j < A1Len {
-				j++
+		} else if j != A1Len && k != A2Len {
+			if A1[j] < A2[k] {
+				A3[i] = A1[j]
+				if j < A1Len {
+					j++
+				}
+			} else if A1[j] > A2[k] {
+				A3[i] = A2[k]
+				if k < A2Len {
+					k++
+				}
+			} else if A1[j] == A2[k] {
+				A3[i] = A2[k]
+				if k < A2Len && j < A1Len {
+					k++
+					j++
+				}
 			}
-		} else if A1[j] > A2[k] {
-			A3[i] = A2[k]
-			if k < A2Len {
-				k++
-			}
-		} else if A1[j] == A2[k] {
-			A3[i] = A2[k]
-			if k < A2Len && j < A1Len {
-				k++
-				j++
-			}
+			i++
+		} else {
+			break
 		}
-		i++
 	}
 	return A3
 }
