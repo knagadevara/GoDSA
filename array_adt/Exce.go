@@ -29,7 +29,19 @@ func Min(arr *[]int) int {
 	return cmpOp
 }
 
-// type
+func MinMax(arr *[]int) (int, int) {
+	var min, max int
+	min, max = (*arr)[0], (*arr)[0]
+	for i := 0; i <= len(*arr)-1; i++ {
+		if (*arr)[i] < min {
+			min = (*arr)[i]
+		} else if (*arr)[i] > max {
+			max = (*arr)[i]
+		}
+	}
+	return min, max
+}
+
 func Sum(arr []int) int {
 	var cmpOp int
 	for i := 0; i <= len(arr)-1; i++ {
@@ -209,11 +221,63 @@ func FindMisngNn(Array []int) {
 	for i := 0; i <= len(Array)-1; i++ {
 		missingElem[Array[i]] = true
 	}
-	for i := Array[0]; i < max; i++ {
-		if missingElem[i] {
-			continue
-		} else {
+	for i := Array[0]; i < max+1; i++ {
+		if !(missingElem[i]) {
 			fmt.Println(i)
 		}
 	}
+}
+
+// works only on sorted
+func CountDupeSort(Array []int) {
+	max := Array[len(Array)-1]
+	var dupeElem = make([]int, max+1)
+	for i := 0; i <= len(Array)-1; i++ {
+		dupeElem[Array[i]] += 1
+	}
+	for i := Array[0]; i < max+1; i++ {
+		if dupeElem[i] > 1 {
+			fmt.Println(i)
+		}
+	}
+}
+
+func CountDupeUnSort(Array []int) {
+	max := Max(&Array)
+	var dupeElem = make([]int, max+1)
+	for i := 0; i <= len(Array)-1; i++ {
+		dupeElem[Array[i]] += 1
+	}
+	for i := 0; i <= len(dupeElem)-1; i++ {
+		if dupeElem[i] > 1 {
+			fmt.Println(i, dupeElem[i])
+		}
+	}
+}
+
+func PairMakesK(Array []int, k int) {
+	for i := 0; i < len(Array)-1; i++ {
+		for j := i + 1; j < len(Array); j++ {
+			if Array[i]+Array[j] == k {
+				fmt.Println(Array[i], Array[j])
+			}
+		}
+	}
+}
+
+func PairMakesK2(Array []int, k int) {
+	max := Max(&Array)
+	var dupeElem = make([]int, max+1)
+	for i := 0; i <= len(Array)-1; i++ {
+		if Array[i] < k {
+			dupeElem[Array[i]] += 1
+		}
+	}
+	for i := 0; i <= len(Array)-1; i++ {
+		if dupeElem[k-Array[i]] <= 1 {
+			fmt.Println(Array[i], k-Array[i])
+			dupeElem[Array[i]] += 1
+		}
+	}
+
 }

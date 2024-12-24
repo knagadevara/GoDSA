@@ -53,7 +53,11 @@ func Exec() {
 		fmt.Println(i, v)
 	}
 	a5 := []int{1, 2, 5, 6, 8, 9}
-	FindMisngNn(a5)
 	a6 := []int{2, 4, 6, 10, 12, 14, 16, 20}
 	fmt.Println(FindMissingEO(a6))
+	FindMisngNn(a5)
+	CountDupeSort([]int{2, 4, 4, 6, 7, 8, 9, 9})
+	CountDupeUnSort([]int{4, 9, 4, 8, 2, 1, 6, 7, 3, 9})
+	PairMakesK2([]int{4, 9, 6, 8, 2, 1}, 10)
+	fmt.Println(MinMax(&([]int{4, 9, 6, -1, 8, 2, 1})))
 }
