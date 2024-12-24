@@ -1,7 +1,6 @@
 package arrayadt
 
 import (
-	"cmp"
 	"errors"
 	"fmt"
 )
@@ -134,105 +133,6 @@ func (a *Arrayadt[T]) IsSorted() bool {
 	return true
 }
 
-func UniqMergeSortedArray[T cmp.Ordered](A1, A2 []T) []T {
-	var i, j, k, A1Len, A2Len, A3Len int
-	A1Len = len(A1)
-	A2Len = len(A2)
-	var A3 = make([]T, (A1Len + A2Len))
-	A3Len = len(A3)
-	for {
-		if i >= A3Len {
-			break
-		} else if j == A1Len && k < A2Len {
-			for _, kv := range A2[k:A2Len] {
-				A3[i] = kv
-				i++
-			}
-			break
-		} else if k == A2Len && j < A1Len {
-			for _, jv := range A1[j:A1Len] {
-				A3[i] = jv
-				i++
-			}
-			break
-		} else if j != A1Len && k != A2Len {
-			if A1[j] < A2[k] {
-				A3[i] = A1[j]
-				if j < A1Len {
-					j++
-				}
-			} else if A1[j] > A2[k] {
-				A3[i] = A2[k]
-				if k < A2Len {
-					k++
-				}
-			} else if A1[j] == A2[k] {
-				A3[i] = A2[k]
-				if k < A2Len && j < A1Len {
-					k++
-					j++
-				}
-			}
-			i++
-		} else {
-			break
-		}
-	}
-	return A3
-}
-
-// func (a *Arrayadt[T]) UniqMergeSortedArray(A2 []T) []T {
-// 	var i, j, k, A1Len, A2Len, A3Len int
-// 	A1Len = a.length
-// 	A2Len = len(A2)
-// 	var A3 = make([]T, (A1Len + A2Len))
-// 	A3Len = len(A3)
-// 	for {
-// 		if i >= A3Len {
-// 			break
-// 		} else if j == A1Len && k < A2Len {
-// 			for _, kv := range A2[k:A2Len] {
-// 				A3[i] = kv
-// 				i++
-// 				a.length += 1
-// 			}
-// 			break
-// 		} else if k == A2Len && j < A1Len {
-// 			for _, jv := range (*a.adt)[j:A1Len] {
-// 				A3[i] = jv
-// 				i++
-// 				a.length += 1
-// 			}
-// 			break
-// 		} else if j != A1Len && k != A2Len {
-// 			if (*a.adt)[j] < A2[k] {
-// 				A3[i] = (*a.adt)[j]
-// 				if j < A1Len {
-// 					j++
-// 					a.length += 1
-// 				}
-// 			} else if (*a.adt)[j] > A2[k] {
-// 				A3[i] = A2[k]
-// 				if k < A2Len {
-// 					k++
-// 					a.length += 1
-// 				}
-// 			} else if (*a.adt)[j] == A2[k] {
-// 				A3[i] = A2[k]
-// 				if k < A2Len && j < A1Len {
-// 					k++
-// 					j++
-// 					a.length += 1
-// 				}
-// 			}
-// 			i++
-// 		} else {
-// 			break
-// 		}
-// 	}
-// 	return A3
-// }
-
 func (a *Arrayadt[T]) Set(index int, val T) error {
 	if !(a.IsEmpty()) && a.InCap(index) {
 		(*a.adt)[index] = val
@@ -312,32 +212,18 @@ func (a *Arrayadt[T]) Reverse2() {
 	}
 }
 
-func (a *Arrayadt[T]) Max() T {
-	var cmpOp T
-	if !(a.IsEmpty()) {
-		for i := 0; i <= a.capasity-1; i++ {
-			if (*a.adt)[i] > cmpOp {
-				cmpOp = (*a.adt)[i]
-			}
-		}
+func (a *Arrayadt[T]) Concat(A2 []T) *Arrayadt[T] {
+	newArr := MakeArrAdt[T](len(A2) + len(*a.adt))
+	for i, v := range *a.adt {
+		(*newArr.adt)[i] = v
+		newArr.length += 1
 	}
-	return cmpOp
-}
-
-func (a *Arrayadt[T]) Min() T {
-	var cmpOp T
-	if !(a.IsEmpty()) {
-		for i := 0; i <= a.capasity-1; i++ {
-			if (*a.adt)[i] < cmpOp {
-				cmpOp = (*a.adt)[i]
-			}
-		}
+	for _, v := range A2 {
+		(*newArr.adt)[newArr.length] = v
+		newArr.length += 1
 	}
-	return cmpOp
-}
-
-func (a *Arrayadt[T]) Concat(A2 []T) {
-	// var A3 = make([]T, a.capasity+len(A2))
-	A3 := UniqMergeSortedArray((*a.adt), A2)
-	a.adt = &A3
+	a.adt = newArr.adt
+	a.length = newArr.length
+	a.capasity = newArr.capasity
+	return newArr
 }
