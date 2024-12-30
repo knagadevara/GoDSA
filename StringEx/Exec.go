@@ -1,6 +1,7 @@
 package stringex
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -43,4 +44,52 @@ func ValidChar(secword string) bool {
 		}
 	}
 	return true
+}
+
+func RevStr(word string) {
+	word2 := []rune(word)
+	for i := len(word2) - 1; i >= 0; i-- {
+		fmt.Printf("%c", word2[i])
+	}
+	fmt.Println()
+}
+
+func RevStr2(word string) string {
+	wrdLen := len(word) - 1
+	var wordRev = make([]rune, wrdLen+1)
+	for i, v := range word {
+		wordRev[wrdLen-i] = v
+	}
+	return string(wordRev)
+}
+
+func Palindrome(word string) bool {
+	wrdLen := len(word) - 1
+	word2 := []rune(MakeCaps(word))
+	for i := 0; i <= (wrdLen/2)+1; i++ {
+		if word2[i] == word2[wrdLen-i] {
+			continue
+		} else {
+			return false
+		}
+	}
+	return true
+}
+
+func CountDuplicate(words string) {
+	var letterBits = make([]rune, 26)
+	i := 0
+	word := []rune(strings.ToLower(words))
+	for {
+		letterBits[word[i]-97] += 1
+		i++
+		if i >= len(word) {
+			break
+		}
+	}
+	for i, v := range letterBits {
+		if v > 1 {
+			fmt.Printf("%c:\t%d\n", i+97, v)
+		}
+	}
 }

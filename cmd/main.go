@@ -1,6 +1,7 @@
 package main
 
 import (
+	stringex "GoDSA/StringEx"
 	arrayadt "GoDSA/array_adt"
 	"GoDSA/hashmap"
 	"GoDSA/linkedlist"
@@ -15,4 +16,5 @@ func main() {
 	linkedlist.Exec()
 	queue.Exec()
 	arrayadt.Exec()
+	stringex.Exec()
 }
